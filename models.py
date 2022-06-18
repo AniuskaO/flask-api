@@ -1,4 +1,6 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy() 
 
 class Descuento(db.Model):
@@ -234,8 +236,8 @@ class Vendedor(db.Model):
 class Suscripcion(db.Model):
     __tablename__ = 'Suscripcion' 
     id_suscripcion = db.Column(db.Integer, primary_key=True) 
-    fecha_inicio = db.Column(db.Integer, nullable=False)
-    fecha_termino = db.Column(db.Integer, nullable=False)
+    fecha_inicio = db.Column(db.String, nullable=False)
+    fecha_termino = db.Column(db.String, nullable=False)
     cliente_id = db.Column(db.Integer,  nullable=False)
 
     def serialize(self):
@@ -262,7 +264,7 @@ class Donacion(db.Model):
     __tablename__ = 'Donacion' 
     id_donacion = db.Column(db.Integer, primary_key=True) 
     valor = db.Column(db.Integer, nullable=False)
-    fecha = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.String, nullable=False)
     cliente_id = db.Column(db.Integer,  nullable=False)
 
     def serialize(self):
@@ -288,7 +290,7 @@ class Donacion(db.Model):
 class Venta(db.Model):
     __tablename__ = 'Venta' 
     id_venta = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.String, nullable=False)
     descuento = db.Column(db.Integer, nullable=True)
     sub_total= db.Column(db.Integer, nullable=False)
     iva = db.Column(db.Integer, nullable=False)
@@ -328,8 +330,8 @@ class Despacho(db.Model):
     __tablename__ = 'Despacho' 
     id_despacho = db.Column(db.Integer, primary_key=True)
     direccion = db.Column(db.String(250), nullable=False)
-    fecha_entrega = db.Column(db.Integer, nullable=True)
-    hora_entrega= db.Column(db.Integer, nullable=True)
+    fecha_entrega = db.Column(db.String, nullable=True)
+    hora_entrega= db.Column(db.String, nullable=True)
     rut_recibe = db.Column(db.Integer, nullable=True)
     nombre_recibe = db.Column(db.Integer, nullable=True)
     estado_despacho = db.Column(db.Integer, nullable=False)

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
-from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Cliente, Vendedor, Suscripcion, Donacion
+from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Cliente, Vendedor, Suscripcion, Donacion, Venta, Despacho
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
