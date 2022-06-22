@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
-from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Vendedor, Suscripcion, Donacion, Cliente, Venta
+from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Vendedor, Suscripcion, Donacion, Cliente, Venta, Despacho
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -539,7 +539,7 @@ def addVenta():
     return jsonify(user.serialize()),200
 
 @app.route('/ventas/<id_venta>', methods=['GET'])
-def getVenta(id_despacho):
+def getVenta(id_venta):
     user = Venta.query.get(id_venta)
     return jsonify(user.serialize()),200
 
