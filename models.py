@@ -1,6 +1,4 @@
-from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy() 
 
 class Descuento(db.Model):
@@ -154,10 +152,9 @@ class Cliente(db.Model):
     direccion = db.Column(db.String(250), nullable=False)
     fono = db.Column(db.Integer, nullable=False)
     correo = db.Column(db.String(250), nullable=False)
-    estado = db.Column(db.String(1), nullable=False)
     comuna_id = db.Column(db.Integer, nullable=False)
     region_id = db.Column(db.Integer, nullable=False)
-
+    clave = db.Column(db.String(15), nullable=False)
     def serialize(self):
 
         return{
@@ -171,9 +168,9 @@ class Cliente(db.Model):
             "direccion": self.direccion, 
             "fono": self.fono,
             "correo": self.correo,
-            "estado": self.estado,
             "comuna_id": self.comuna_id,
-            "region_id": self.region_id
+            "region_id": self.region_id,
+            "clave": self.clave 
         }
 
     def save(self):
@@ -236,8 +233,8 @@ class Vendedor(db.Model):
 class Suscripcion(db.Model):
     __tablename__ = 'Suscripcion' 
     id_suscripcion = db.Column(db.Integer, primary_key=True) 
-    fecha_inicio = db.Column(db.String, nullable=False)
-    fecha_termino = db.Column(db.String, nullable=False)
+    fecha_inicio = db.Column(db.Integer, nullable=False)
+    fecha_termino = db.Column(db.Integer, nullable=False)
     cliente_id = db.Column(db.Integer,  nullable=False)
 
     def serialize(self):
@@ -264,7 +261,7 @@ class Donacion(db.Model):
     __tablename__ = 'Donacion' 
     id_donacion = db.Column(db.Integer, primary_key=True) 
     valor = db.Column(db.Integer, nullable=False)
-    fecha = db.Column(db.String, nullable=False)
+    fecha = db.Column(db.Integer, nullable=False)
     cliente_id = db.Column(db.Integer,  nullable=False)
 
     def serialize(self):
@@ -287,10 +284,49 @@ class Donacion(db.Model):
         db.session.delete(self)
         db.session.commit()       
 
+class Despacho(db.Model):
+    __tablename__ = 'Despacho' 
+    id_despacho = db.Column(db.Integer, primary_key=True)
+    direccion = db.Column(db.String(250), nullable=False)
+    fecha_entrega = db.Column(db.Integer, nullable=True)
+    hora_entrega= db.Column(db.Integer, nullable=True)
+    rut_recibe = db.Column(db.Integer, nullable=True)
+    nombre_recibe = db.Column(db.Integer, nullable=True)
+    estado_despacho = db.Column(db.Integer, nullable=False)
+    venta_id = db.Column(db.Integer, nullable=False)
+    comuna_ida = db.Column(db.Integer, nullable=False)
+    region_id = db.Column(db.Integer, nullable=False)
+
+    def serialize(self):
+
+        return{
+            "id_despacho": self.id_despacho,
+            "direccion": self.direccion,
+            "fecha_entrega": self.fecha_entrega,
+            "hora_entrega": self.hora_entrega,
+            "rut_recibe": self.rut_recibe,
+            "nombre_recibe": self.nombre_recibe,
+            "estado_despacho": self.estado_despacho,
+            "venta_id": self.venta_id, 
+            "comuna_ida": self.comuna_ida,
+            "region_id": self.region_id
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 class Venta(db.Model):
     __tablename__ = 'Venta' 
     id_venta = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.String, nullable=False)
+    fecha = db.Column(db.Integer, nullable=False)
     descuento = db.Column(db.Integer, nullable=True)
     sub_total= db.Column(db.Integer, nullable=False)
     iva = db.Column(db.Integer, nullable=False)
@@ -325,43 +361,3 @@ class Venta(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
-class Despacho(db.Model):
-    __tablename__ = 'Despacho' 
-    id_despacho = db.Column(db.Integer, primary_key=True)
-    direccion = db.Column(db.String(250), nullable=False)
-    fecha_entrega = db.Column(db.String, nullable=True)
-    hora_entrega= db.Column(db.String, nullable=True)
-    rut_recibe = db.Column(db.Integer, nullable=True)
-    nombre_recibe = db.Column(db.Integer, nullable=True)
-    estado_despacho = db.Column(db.Integer, nullable=False)
-    venta_id = db.Column(db.Integer, nullable=False)
-    comuna_ida = db.Column(db.Integer, nullable=False)
-    region_id = db.Column(db.Integer, nullable=False)
-
-    def serialize(self):
-
-        return{
-            "id_despacho": self.id_despacho,
-            "direccion": self.direccion,
-            "fecha_entrega": self.fecha_entrega,
-            "hora_entrega": self.hora_entrega,
-            "rut_recibe": self.rut_recibe,
-            "nombre_recibe": self.nombre_recibe,
-            "estado_despacho": self.estado_despacho,
-            "venta_id": self.venta_id, 
-            "comuna_ida": self.comuna_ida,
-            "region_id": self.region_id
-        }
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-

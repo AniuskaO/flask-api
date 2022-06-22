@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
-from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Cliente, Vendedor, Suscripcion, Donacion, Venta, Despacho
+from models import db, Descuento, Producto, Region, Descuento_Producto, Comuna, Vendedor, Suscripcion, Donacion, Cliente, Venta
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -269,9 +269,9 @@ def addCliente():
     user.direccion = request.json.get('direccion')
     user.fono = request.json.get('fono')
     user.correo = request.json.get('correo')
-    user.estado = request.json.get('estado')
     user.comuna_id = request.json.get('comuna_id')
     user.region_id = request.json.get('region_id')
+    user.clave = request.json.get('clave')
 
     Cliente.save(user)
 
@@ -296,7 +296,6 @@ def updateCliente(id_usuario):
     user.direccion = request.json.get('direccion')
     user.fono = request.json.get('fono')
     user.correo = request.json.get('correo')
-    user.estado = request.json.get('estado')
     user.comuna_id = request.json.get('comuna_id')
     user.region_id = request.json.get('region_id')
 
@@ -450,62 +449,6 @@ def updateDonacion(id_donacion):
 
     return jsonify(user.serialize()),200
 
-# Venta
-@app.route('/ventas', methods=['GET'])
-def getVentas():
-    user = Venta.query.all()
-    user = list(map(lambda x: x.serialize(), user))
-    return jsonify(user),200
-
-@app.route('/ventas/<id_venta>', methods=['DELETE'])
-def deleteVenta(id_venta):
-    user = Venta.query.get(id_venta)
-    Venta.delete(user)
-    return jsonify(user.serialize()),200
-
-@app.route('/ventas', methods=['POST'])
-def addVenta():
-    user = Venta()
-
-    user.id_venta = request.json.get('id_venta')
-    user.fecha = request.json.get('fecha')
-    user.descuento = request.json.get('descuento')
-    user.sub_total = request.json.get('sub_total')
-    user.iva = request.json.get('iva')
-    user.total = request.json.get('total')
-    user.estado = request.json.get('estado')
-    user.cliente_id = request.json.get('cliente_id')
-    user.vendedor_id = request.json.get('vendedor_id')
-    user.despacho_id = request.json.get('despacho_id')
-
-    Venta.save(user)
-
-    return jsonify(user.serialize()),200
-
-@app.route('/ventas/<id_venta>', methods=['GET'])
-def getVenta(id_venta):
-    user = Venta.query.get(id_venta)
-    return jsonify(user.serialize()),200
-
-@app.route('/ventas/<id_venta>', methods=['PUT'])
-def updateVenta(id_venta):
-    user = Venta.query.get(id_venta)
-
-    user.id_venta = request.json.get('id_venta')
-    user.fecha = request.json.get('fecha')
-    user.descuento = request.json.get('descuento')
-    user.sub_total = request.json.get('sub_total')
-    user.iva = request.json.get('iva')
-    user.total = request.json.get('total')
-    user.estado = request.json.get('estado')
-    user.cliente_id = request.json.get('cliente_id')
-    user.vendedor_id = request.json.get('vendedor_id')
-    user.despacho_id = request.json.get('despacho_id')
-
-    Venta.update(user)
-
-    return jsonify(user.serialize()),200
-
 # Despacho
 @app.route('/despachos', methods=['GET'])
 def getDespachos():
@@ -561,6 +504,65 @@ def updateDespacho(id_despacho):
     Despacho.update(user)
 
     return jsonify(user.serialize()),200
+
+
+# Venta
+@app.route('/ventas', methods=['GET'])
+def getVentas():
+    user = Venta.query.all()
+    user = list(map(lambda x: x.serialize(), user))
+    return jsonify(user),200
+
+@app.route('/ventas/<id_venta>', methods=['DELETE'])
+def deleteVenta(id_venta):
+    user = Venta.query.get(id_venta)
+    Venta.delete(user)
+    return jsonify(user.serialize()),200
+
+@app.route('/ventas', methods=['POST'])
+def addVenta():
+    user = Venta()
+
+    user.id_venta = request.json.get('id_venta')
+    user.fecha = request.json.get('fecha')
+    user.descuento = request.json.get('descuento')
+    user.sub_total = request.json.get('sub_total')
+    user.iva = request.json.get('iva')
+    user.total = request.json.get('total')
+    user.estado = request.json.get('estado')
+    user.cliente_id = request.json.get('cliente_id')
+    user.vendedor_id = request.json.get('vendedor_id')
+    user.despacho_id = request.json.get('despacho_id')
+
+    Venta.save(user)
+
+    return jsonify(user.serialize()),200
+
+@app.route('/ventas/<id_venta>', methods=['GET'])
+def getVenta(id_despacho):
+    user = Venta.query.get(id_venta)
+    return jsonify(user.serialize()),200
+
+@app.route('/ventas/<id_venta>', methods=['PUT'])
+def updateVenta(id_venta):
+    user = Venta.query.get(id_venta)
+
+    user.id_venta = request.json.get('id_venta')
+    user.fecha = request.json.get('fecha')
+    user.descuento = request.json.get('descuento')
+    user.sub_total = request.json.get('sub_total')
+    user.iva = request.json.get('iva')
+    user.total = request.json.get('total')
+    user.estado = request.json.get('estado')
+    user.cliente_id = request.json.get('cliente_id')
+    user.vendedor_id = request.json.get('vendedor_id')
+    user.despacho_id = request.json.get('despacho_id')
+
+    Venta.update(user)
+
+    return jsonify(user.serialize()),200
+
+
 
 
 if __name__ == '__main__':
