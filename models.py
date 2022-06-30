@@ -154,7 +154,7 @@ class Cliente(db.Model):
     correo = db.Column(db.String(250), nullable=False)
     comuna_id = db.Column(db.Integer, nullable=False)
     region_id = db.Column(db.Integer, nullable=False)
-    clave = db.Column(db.String(15), nullable=False)
+    clave = db.Column(db.String(15), nullable=True)
     def serialize(self):
 
         return{
@@ -294,7 +294,7 @@ class Despacho(db.Model):
     nombre_recibe = db.Column(db.Integer, nullable=True)
     estado_despacho = db.Column(db.Integer, nullable=False)
     venta_id = db.Column(db.Integer, nullable=False)
-    comuna_ida = db.Column(db.Integer, nullable=False)
+    comuna_id = db.Column(db.Integer, nullable=False)
     region_id = db.Column(db.Integer, nullable=False)
 
     def serialize(self):
@@ -308,7 +308,7 @@ class Despacho(db.Model):
             "nombre_recibe": self.nombre_recibe,
             "estado_despacho": self.estado_despacho,
             "venta_id": self.venta_id, 
-            "comuna_ida": self.comuna_ida,
+            "comuna_id": self.comuna_id,
             "region_id": self.region_id
         }
 
@@ -326,7 +326,7 @@ class Despacho(db.Model):
 class Venta(db.Model):
     __tablename__ = 'Venta' 
     id_venta = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.String, nullable=False)
     descuento = db.Column(db.Integer, nullable=True)
     sub_total= db.Column(db.Integer, nullable=False)
     iva = db.Column(db.Integer, nullable=False)

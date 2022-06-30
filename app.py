@@ -474,7 +474,7 @@ def addDespacho():
     user.nombre_recibe = request.json.get('nombre_recibe')
     user.estado_despacho = request.json.get('estado_despacho')
     user.venta_id = request.json.get('venta_id')
-    user.comuna_ida = request.json.get('comuna_ida')
+    user.comuna_id = request.json.get('comuna_id')
     user.region_id = request.json.get('region_id')
 
     Despacho.save(user)
@@ -490,16 +490,16 @@ def getDespacho(id_despacho):
 def updateDespacho(id_despacho):
     user = Despacho.query.get(id_despacho)
 
-    user.id_venta = request.json.get('id_venta')
-    user.fecha = request.json.get('fecha')
-    user.descuento = request.json.get('descuento')
-    user.sub_total = request.json.get('sub_total')
-    user.iva = request.json.get('iva')
-    user.total = request.json.get('total')
-    user.estado = request.json.get('estado')
-    user.cliente_id = request.json.get('cliente_id')
-    user.vendedor_id = request.json.get('vendedor_id')
-    user.despacho_id = request.json.get('despacho_id')
+    user.id_despacho = request.json.get('id_despacho')
+    user.direccion = request.json.get('direccion')
+    user.fecha_entrega = request.json.get('fecha_entrega')
+    user.hora_entrega = request.json.get('hora_entrega')
+    user.rut_recibe = request.json.get('rut_recibe')
+    user.nombre_recibe = request.json.get('nombre_recibe')
+    user.estado_despacho = request.json.get('estado_despacho')
+    user.venta_id = request.json.get('venta_id')
+    user.comuna_id = request.json.get('comuna_id')
+    user.region_id = request.json.get('region_id')
 
     Despacho.update(user)
 
@@ -539,7 +539,7 @@ def addVenta():
     return jsonify(user.serialize()),200
 
 @app.route('/ventas/<id_venta>', methods=['GET'])
-def getVenta(id_venta):
+def getVenta(id_despacho):
     user = Venta.query.get(id_venta)
     return jsonify(user.serialize()),200
 
